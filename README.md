@@ -1,5 +1,9 @@
 # Tarea1.p Conociendo el Scaffold
 
+Video demostrando el funcionamiento de la app:
+
+https://www.youtube.com/watch?v=_DRa5L4w7UY
+
 Utilizar scaffold dentro de una app para mostrar Snack Bars al hacer clic en el FAB.
 
 1. El app bar debe tener el nombre “Click the FAB” +5
