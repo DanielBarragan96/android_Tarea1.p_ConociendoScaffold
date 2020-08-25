@@ -22,14 +22,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //bool _isActive = true;
+  DateTime _currDate = new DateTime.now();
   bool _isFavorite = false;
   int _counter = 0;
+  var _scaffoldkey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    //la siguiente  var da accesp a contexto de Scaffle
-    var _scaffoldkey = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: _scaffoldkey,
       appBar: AppBar(
@@ -57,48 +56,8 @@ class _HomePageState extends State<HomePage> {
             FlatButton(
               onPressed: () {
                 _counter++;
-                var now = new DateTime.now();
-                //setState(() {});
-                if (_counter % 2 == 0) {
-                  _scaffoldkey.currentState
-                    //para esconder el snackbar actual
-                    ..hideCurrentSnackBar()
-                    //mostrar dialogo
-                    ..showSnackBar(SnackBar(
-                      content: Text("Snackbar"),
-                      duration: Duration(milliseconds: 1000),
-                    ));
-                } else {
-                  _scaffoldkey.currentState
-                    //para esconder el snackbar actual
-                    ..hideCurrentSnackBar()
-                    //mostrar dialogo
-                    ..showSnackBar(
-                      SnackBar(
-                          content: Text('Snackbar'),
-                          duration: Duration(milliseconds: 1000),
-                          action: SnackBarAction(
-                              label: "Dialogo",
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text("Title"),
-                                        content: Text(
-                                            now.toString().substring(0, 16)),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Text("Salir"))
-                                        ],
-                                      );
-                                    });
-                              })),
-                    );
-                }
+                setState(() {});
+                evaluateCounterDialog();
               },
               child: Text("Snackbar"),
               color: Colors.blue[100],
@@ -107,5 +66,48 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void evaluateCounterDialog() {
+    if (_counter % 2 == 0) {
+      _scaffoldkey.currentState
+        //para esconder el snackbar actual
+        ..hideCurrentSnackBar()
+        //mostrar dialogo
+        ..showSnackBar(SnackBar(
+          content: Text("Snackbar"),
+          duration: Duration(milliseconds: 1000),
+        ));
+    } else {
+      _scaffoldkey.currentState
+        //para esconder el snackbar actual
+        ..hideCurrentSnackBar()
+        //mostrar dialogo
+        ..showSnackBar(
+          SnackBar(
+              content: Text('Snackbar'),
+              duration: Duration(milliseconds: 1000),
+              action: SnackBarAction(
+                  label: "Dialogo",
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Title"),
+                            content:
+                                Text(_currDate.toString().substring(0, 16)),
+                            actions: <Widget>[
+                              FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("Salir"))
+                            ],
+                          );
+                        });
+                  })),
+        );
+    }
   }
 }
