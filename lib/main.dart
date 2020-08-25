@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //bool _isActive = true;
-  bool _isSeen = true;
+  bool _isFavorite = false;
   int _counter = 0;
 
   @override
@@ -33,17 +33,17 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       key: _scaffoldkey,
       appBar: AppBar(
-        title: Text('Click the FAB'),
+        title: Text('Click the FAV'),
         backgroundColor: Colors.black87,
         actions: [
           IconButton(
             icon: Icon(
               Icons.favorite,
-              color: _isSeen ? Colors.red : Colors.grey,
+              color: _isFavorite ? Colors.red : Colors.grey,
             ),
             onPressed: () {
               setState(() {
-                _isSeen = !_isSeen;
+                _isFavorite = !_isFavorite;
               });
             },
           )
@@ -57,6 +57,7 @@ class _HomePageState extends State<HomePage> {
             FlatButton(
               onPressed: () {
                 _counter++;
+                var now = new DateTime.now();
                 //setState(() {});
                 if (_counter % 2 == 0) {
                   _scaffoldkey.currentState
@@ -64,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                     ..hideCurrentSnackBar()
                     //mostrar dialogo
                     ..showSnackBar(SnackBar(
-                      content: Text("Snackbar mostrar"),
+                      content: Text("Snackbar"),
                       duration: Duration(milliseconds: 1000),
                     ));
                 } else {
@@ -72,10 +73,31 @@ class _HomePageState extends State<HomePage> {
                     //para esconder el snackbar actual
                     ..hideCurrentSnackBar()
                     //mostrar dialogo
-                    ..showSnackBar(SnackBar(
-                      content: Text("Snackbar mostrar"),
-                      duration: Duration(milliseconds: 1000),
-                    ));
+                    ..showSnackBar(
+                      SnackBar(
+                          content: Text('Snackbar'),
+                          duration: Duration(milliseconds: 1000),
+                          action: SnackBarAction(
+                              label: "Dialogo",
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("Title"),
+                                        content: Text(
+                                            now.toString().substring(0, 16)),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text("Salir"))
+                                        ],
+                                      );
+                                    });
+                              })),
+                    );
                 }
               },
               child: Text("Snackbar"),
@@ -83,31 +105,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //mostrar dialogo
-          showDialog(
-              barrierDismissible: true,
-              context: context,
-              builder: (_) {
-                return AlertDialog(
-                  title: Text("Dialogo"),
-                  content: Text("Contenido del texto"),
-                  actions: <Widget>[
-                    FlatButton(
-                      onPressed: () {
-                        //para salir del dialogo
-                        Navigator.of(context).pop();
-                      },
-                      child: Text("Aceptar"),
-                    )
-                  ],
-                );
-              });
-        },
-        child: Icon(Icons.adjust),
-        tooltip: "Dialogo",
       ),
     );
   }
