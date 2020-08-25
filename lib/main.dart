@@ -90,6 +90,7 @@ class _HomePageState extends State<HomePage> {
               action: SnackBarAction(
                   label: "Dialogo",
                   onPressed: () {
+                    _currDate = new DateTime.now();
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
