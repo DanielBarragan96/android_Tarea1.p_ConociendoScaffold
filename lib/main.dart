@@ -12,10 +12,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({
     Key key,
   }) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  //bool _isActive = true;
+  bool _isSeen = true;
+  int _counter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -24,35 +33,63 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       key: _scaffoldkey,
       appBar: AppBar(
-        title: Text('Material App Bar'),
-      ),
-      body: Column(
-        children: <Widget>[
-          FlatButton(
+        title: Text('Click the FAB'),
+        backgroundColor: Colors.black87,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.favorite,
+              color: _isSeen ? Colors.red : Colors.grey,
+            ),
             onPressed: () {
-              _scaffoldkey.currentState
-                //para esconder el snackbar actual
-                ..hideCurrentSnackBar()
-                //mostrar dialogo
-                ..showSnackBar(SnackBar(
-                  content: Text("Snackbar mostrar"),
-                  duration: Duration(milliseconds: 300),
-                ));
+              setState(() {
+                _isSeen = !_isSeen;
+              });
             },
-            child: Text("Snackbar"),
-            color: Colors.blue[100],
-          ),
+          )
         ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text("Contador: $_counter"),
+            FlatButton(
+              onPressed: () {
+                setState(() {
+                  _counter++;
+                  if (_counter % 2 == 0) {
+                    _scaffoldkey.currentState
+                      //para esconder el snackbar actual
+                      ..hideCurrentSnackBar()
+                      //mostrar dialogo
+                      ..showSnackBar(SnackBar(
+                        content: Text("Snackbar mostrar"),
+                        duration: Duration(milliseconds: 1000),
+                      ));
+                  } else {
+                    _scaffoldkey.currentState
+                      //para esconder el snackbar actual
+                      ..hideCurrentSnackBar()
+                      //mostrar dialogo
+                      ..showSnackBar(SnackBar(
+                        content: Text("Snackbar mostrar"),
+                        duration: Duration(milliseconds: 1000),
+                      ));
+                  }
+                });
+              },
+              child: Text("Snackbar"),
+              color: Colors.blue[100],
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           //mostrar dialogo
           showDialog(
-              barrierDismissible:
-                  //para que no se pueda quitar el mensaje
-                  //al presionar fuera de este = false
-                  //ESTO ES MALA PRACTICA
-                  false,
+              barrierDismissible: true,
               context: context,
               builder: (_) {
                 return AlertDialog(
