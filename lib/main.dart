@@ -56,28 +56,27 @@ class _HomePageState extends State<HomePage> {
             Text("Contador: $_counter"),
             FlatButton(
               onPressed: () {
-                setState(() {
-                  _counter++;
-                  if (_counter % 2 == 0) {
-                    _scaffoldkey.currentState
-                      //para esconder el snackbar actual
-                      ..hideCurrentSnackBar()
-                      //mostrar dialogo
-                      ..showSnackBar(SnackBar(
-                        content: Text("Snackbar mostrar"),
-                        duration: Duration(milliseconds: 1000),
-                      ));
-                  } else {
-                    _scaffoldkey.currentState
-                      //para esconder el snackbar actual
-                      ..hideCurrentSnackBar()
-                      //mostrar dialogo
-                      ..showSnackBar(SnackBar(
-                        content: Text("Snackbar mostrar"),
-                        duration: Duration(milliseconds: 1000),
-                      ));
-                  }
-                });
+                _counter++;
+                //setState(() {});
+                if (_counter % 2 == 0) {
+                  _scaffoldkey.currentState
+                    //para esconder el snackbar actual
+                    ..hideCurrentSnackBar()
+                    //mostrar dialogo
+                    ..showSnackBar(SnackBar(
+                      content: Text("Snackbar mostrar"),
+                      duration: Duration(milliseconds: 1000),
+                    ));
+                } else {
+                  _scaffoldkey.currentState
+                    //para esconder el snackbar actual
+                    ..hideCurrentSnackBar()
+                    //mostrar dialogo
+                    ..showSnackBar(SnackBar(
+                      content: Text("Snackbar mostrar"),
+                      duration: Duration(milliseconds: 1000),
+                    ));
+                }
               },
               child: Text("Snackbar"),
               color: Colors.blue[100],
